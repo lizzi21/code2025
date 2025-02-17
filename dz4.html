@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Координаты курсора(стили и скрипт здесь)</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            background-color: #f3b1b1;
+        }
+        #coordinates {
+            position: absolute;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: rgb(240, 148, 230);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="coordinates">X: 0, Y: 0</div>
+    <script>
+        const coordinates = document.getElementById('coordinates');
+        document.addEventListener('mousemove', (event) => {
+            coordinates.textContent = `X: ${event.clientX}, Y: ${event.clientY}`;
+            coordinates.style.left = `${event.clientX + 10}px`;
+            coordinates.style.top = `${event.clientY + 10}px`;
+        });
+    </script>
+</body>
+</html>

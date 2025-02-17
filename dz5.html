@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Счётчик кликов и Тайме ( стили и скрипт тут)
+        
+    </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #959bcd;
+        }
+        button {
+            font-size: 18px;
+            padding: 12px 24px;
+            cursor: pointer;
+            background-color: #f09cdb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #eb57ed;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        p {
+            font-size: 20px;
+            margin-top: 15px;
+            color: #333;
+        }
+        #message {
+            color: rgb(249, 44, 208);
+            font-weight: bold;
+            display: none;
+        }
+        .container {
+            background: #f8f398;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="clickButton">Кликни меня</button>
+        <p>Кликов: <span id="counter">0</span></p>
+        <p id="message">Вы достигли максимального количества кликов!</p>
+    </div>
+
+    <div class="container">
+        <p>Таймер: <span id="timer">10</span></p>
+        <button id="resetTimer">Сбросить таймер</button>
+        <p id="timerMessage" style="display: none; color: red; font-weight: bold;">Время вышло!</p>
+    </div>
+
+    <div class="container">
+        <p>Прошло секунд: <span id="countUpTimer">0</span></p>
+        <button id="startCountUp">Старт</button>
+        <button id="stopCountUp">Стоп</button>
+        <button id="resetCountUp">Сброс</button>
+    </div>
+
+    <script>
+        let count = 0;
+        const maxClicks = 15;
+        const button = document.getElementById("clickButton");
+        const counterDisplay = document.getElementById("counter");
+        const message = document.getElementById("message");
+
+        button.addEventListener("click", function() {
+            if (count < maxClicks) {
+                count++;
+                counterDisplay.textContent = count;
+            }
+            if (count === maxClicks) {
+                button.disabled = true;
+                message.style.display = "block";
+            }
+        });
+
+        let timeLeft = 10;
+        let timerId;
+        const timerDisplay = document.getElementById("timer");
+        const timerMessage = document.getElementById("timerMessage");
+        const resetButton = document.getElementById("resetTimer");
+
+        function startTimer() {
+            clearInterval(timerId);
+            timeLeft = 10;
+            timerDisplay.textContent = timeLeft;
+            timerMessage.style.display = "none";
+            timerId = setInterval(function() {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    timerDisplay.textContent = timeLeft;
+                } else {
+                    clearInterval(timerId);
+                    timerMessage.style.display = "block";
+                }
+            }, 1000);
+        }
+
+        resetButton.addEventListener("click", startTimer);
+        startTimer();
+
+        let countUp = 0;
+        let countUpTimerId;
+        const countUpDisplay = document.getElementById("countUpTimer");
+        const startButton = document.getElementById("startCountUp");
+        const stopButton = document.getElementById("stopCountUp");
+        const resetCountUpButton = document.getElementById("resetCountUp");
+
+        function startCountUp() {
+            clearInterval(countUpTimerId);
+            countUpTimerId = setInterval(() => {
+                countUp++;
+                countUpDisplay.textContent = countUp;
+            }, 1000);
+        }
+
+        function stopCountUp() {
+            clearInterval(countUpTimerId);
+        }
+
+        function resetCountUp() {
+            clearInterval(countUpTimerId);
+            countUp = 0;
+            countUpDisplay.textContent = countUp;
+        }
+
+        startButton.addEventListener("click", startCountUp);
+        stopButton.addEventListener("click", stopCountUp);
+        resetCountUpButton.addEventListener("click", resetCountUp);
+    </script>
+</body>
+</html>
